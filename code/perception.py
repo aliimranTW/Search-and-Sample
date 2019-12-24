@@ -128,19 +128,23 @@ def perception_step(Rover):
     #nav_thresh = color_thresh_walls(warped)
     terrain_thresh = color_thresh(warped)
     
+    
+    Rover.vision_image[:,:,0] = terrain_thresh #navigable terrain color-thresholded binary image
+
+
     # 4) Update Rover.vision_image (this will be displayed on left side of screen)
         #Rover.vision_image[:,:,0] = obs_thresh # obstacle color-thresholded binary image
         #Rover.vision_image[:,:,1] = rock_thresh #rock_sample color-thresholded binary image
-        Rover.vision_image[:,:,2] = terrain_thresh #navigable terrain color-thresholded binary image
+     #Rover.vision_image[:,:,0] = terrain_thresh #navigable terrain color-thresholded binary image
 
     # 5) Convert map image pixel values to rover-centric coords
-    xpix, ypix = rover_coors(terrain_thresh)
+    xpix, ypix = rover_coords(terrain_thresh)
     
     # 6) Convert rover-centric pixel values to world coordinates
     xpos = Rover.pos[0]
     ypos = Rover.pos[1]
     yaw = Rover.yaw
-    world_size = Rover.worldmap.shapr[0]
+    world_size = Rover.worldmap.shape[0]
     scale = 10
     x_world, y_world = pix_to_world(xpix, ypix, xpos, ypos, yaw, world_size, scale)
     
@@ -151,7 +155,7 @@ def perception_step(Rover):
 
     # 8) Convert rover-centric pixel positions to polar coordinates
     # Update Rover pixel distances and angles
-    polar_dis, polar_ang = to_poar_coord(xpix, ypix)
+    polar_dis, polar_ang = to_polar_coord(xpix, ypix)
     Rover.nav_dists = polar_dis
     Rover.nav_angles = polar_ang
     

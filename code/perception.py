@@ -155,7 +155,7 @@ def perception_step(Rover):
 
     # 8) Convert rover-centric pixel positions to polar coordinates
     # Update Rover pixel distances and angles
-    polar_dis, polar_ang = to_polar_coord(xpix, ypix)
+    polar_dis, polar_ang = to_polar_coords(xpix, ypix)
     Rover.nav_dists = polar_dis
     Rover.nav_angles = polar_ang
     
